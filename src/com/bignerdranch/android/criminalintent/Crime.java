@@ -6,7 +6,11 @@ import java.util.UUID;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
+/**
+ * 
+ * @author Charles Irick
+ *
+ */
 public class Crime {
 	private UUID mId;
 	private String mTitle;
@@ -18,11 +22,43 @@ public class Crime {
 	private static final String JSON_SOLVED="solved";
 	private static final String JSON_DATE="date";
 	
+	/**
+	 * Constructor
+	 * Each new object gets a unique UUID and has
+	 * an associated date, title, and solved field. 
+	 */
 	public Crime() {
 		mId = UUID.randomUUID();
 		mDate = new Date();
 	}
 	
+	/**
+	 * Constructor
+	 * This constructor is used to create a crime
+	 * object that was saved to a file. This constructor
+	 * takes a JSON object and parses it to retrieve 
+	 * the Crime object information. 
+	 * 
+	 * @param json
+	 * @throws JSONException
+	 */
+	public Crime(JSONObject json) throws JSONException {
+		mId = UUID.fromString(json.getString(JSON_ID));
+		mTitle = json.getString(JSON_TITLE);
+		mSolved = json.getBoolean(JSON_SOLVED);
+		mDate = new Date(json.getLong(JSON_DATE));
+	}
+	
+	/**
+	 * toJSON
+	 * In order to save the information from a Crime
+	 * the info is pushed into a JSON object. This 
+	 * object is returned to the caller for use in 
+	 * storing this information to a file. 
+	 * 
+	 * @return JSONObject
+	 * @throws JSONException
+	 */
 	public JSONObject toJSON() throws JSONException {
 		JSONObject json = new JSONObject();
 		json.put(JSON_DATE, mDate.getTime());

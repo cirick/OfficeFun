@@ -54,6 +54,16 @@ public class CrimeFragment extends Fragment {
 		mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
 	}
 	
+	/* It's best to save all user data at onPause, since
+	 * onStop or onDestroy might not be called if application
+	 * is destroyed by OS to reclaim memory. 
+	 */
+	@Override
+	public void onPause(){
+		super.onPause();
+		CrimeLab.get(getActivity()).saveCrimes();
+	}
+	
 	public void updateDate(){
 		mDateButton.setText(DateFormat.format("EEE MMM dd, yyy", mCrime.getDate()).toString());
 	}
